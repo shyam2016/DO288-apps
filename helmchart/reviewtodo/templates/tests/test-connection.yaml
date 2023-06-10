@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "reviewtodo.fullname" . }}-test-connection"
+  labels:
+    {{- include "reviewtodo.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "reviewtodo.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
